@@ -34,15 +34,6 @@ import json
 import numpy as np
 
 
-# Load Lat Long 
-zip_latlong = pd.read_csv("https://raw.githubusercontent.com/hantswilliams/AHI_NHIT_Dashboard/main/us-zip-code-latitude-and-longitude.csv")
-zip_latlong = zip_latlong[['Zip',
-                             'City',
-                             'State',
-                             'Latitude',
-                             'Longitude']]
-
-zip_latlong = zip_latlong.add_prefix('gpsdata_')
 
 
 #######NON-STACKED DATASET
@@ -74,7 +65,7 @@ geocodetojson(original_covid,"geocoded_column")
 covid_temp = pd.json_normalize(original_covid['geocoded_column'])	
 clean_covid = covid_temp.merge(original_covid, how='left', left_index=True, right_index=True)	
 clean_covid = clean_covid.drop(columns=['geocoded_column'])	
-covid_location = clean_covid['coordinates'].str.strip('[]').str.split(', ', expand=True).rename(columns={0:'Latitude', 1:'Longitude'}) 	
+covid_location = clean_covid['coordinates'].str.strip('[]').str.split(', ', expand=True).rename(columns={0:'Longitude', 1:'Latitude'}) 	
 clean_covid = clean_covid.merge(covid_location, how='left', left_index=True, right_index=True)	
 clean_covid = clean_covid.drop(columns=['type', 'coordinates'])
 
@@ -432,6 +423,7 @@ chsi = chsi.rename(columns={
 final = merge3_covid.merge(chsi, how='left', on=['County', 'State'])
 
 
+sample = final.sample(10)
 
 
 ##SAVE LOCALLY 
