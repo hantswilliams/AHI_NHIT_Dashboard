@@ -419,14 +419,23 @@ merge3_covid = merge3_covid.rename(columns={
 
 
 #BRING IN CHSI Data (Health Indicators)
-chsi = pd.read_csv("")
+chsi = pd.read_csv("https://raw.githubusercontent.com/hantswilliams/AHI_NHIT_Dashboard/main/scripts/script_output/morehouse_chsi.csv")
+chsi = chsi.drop(columns=['Unnamed: 0'])
+chsi['chsi_CHSI_County_Name'] = chsi['chsi_CHSI_County_Name'].str.upper() 
+chsi = chsi.rename(columns={
+    'chsi_CHSI_County_Name': 'County',
+    'chsi_CHSI_State_Abbr': 'State',
+    })
 
+
+
+final = merge3_covid.merge(chsi, how='left', on=['County', 'State'])
 
 
 
 
 ##SAVE LOCALLY 
-merge3_covid.to_csv('/Users/hantswilliams/Dropbox/Biovirtua/Python_Projects/ahi/AHI_NHIT_Dashboard/scripts/script_output/morehouse_demo.csv')
+final.to_csv('/Users/hantswilliams/Dropbox/Biovirtua/Python_Projects/ahi/AHI_NHIT_Dashboard/scripts/script_output/morehouse_demo.csv')
 
 
 
@@ -442,7 +451,7 @@ MYSQL_DATABASE = 'nhit'
 connection_string = f'mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOSTNAME}/{MYSQL_DATABASE}'
 engine = create_engine(connection_string)
 
-merge3_covid.to_sql("morehouse_demo", con=engine, if_exists='replace')
+final.to_sql("morehouse_demo", con=engine, if_exists='replace')
 
 
 
