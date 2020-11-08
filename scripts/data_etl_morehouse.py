@@ -406,10 +406,27 @@ merge3_covid = merge3_covid[[
 
 
 
+merge3_covid = merge3_covid.rename(columns={
+    'covid_Latitude': 'Latitude', 
+    'covid_Longitude': 'Longitude',
+    'covid_state': 'State',
+    'covid_fips_county_code': 'Fips_County_Code',
+    'vulnerability_county': 'County',
+    'vulnerability_location': 'County_State',
+    })
+
+
+
+
+#BRING IN CHSI Data (Health Indicators)
+chsi = pd.read_csv("")
+
+
+
 
 
 ##SAVE LOCALLY 
-final.to_csv('/Users/hantswilliams/Downloads/morehouse_demo.csv')
+merge3_covid.to_csv('/Users/hantswilliams/Dropbox/Biovirtua/Python_Projects/ahi/AHI_NHIT_Dashboard/scripts/script_output/morehouse_demo.csv')
 
 
 
@@ -425,7 +442,7 @@ MYSQL_DATABASE = 'nhit'
 connection_string = f'mysql+pymysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOSTNAME}/{MYSQL_DATABASE}'
 engine = create_engine(connection_string)
 
-final.to_sql("morehouse_demo", con=engine, if_exists='replace')
+merge3_covid.to_sql("morehouse_demo", con=engine, if_exists='replace')
 
 
 
