@@ -434,6 +434,20 @@ final.to_csv('/Users/hantswilliams/Dropbox/Biovirtua/Python_Projects/ahi/AHI_NHI
 
 
 
+
+####LONG DATA 
+#Disparities - stacked /4-5 rows per FIP 
+#Disparities-COVID 
+
+
+
+
+
+
+
+
+
+
 ####SAVE TO DB FOR BACKUP 
 MYSQL_HOSTNAME = '34.204.170.21'
 MYSQL_USER = 'dba'
